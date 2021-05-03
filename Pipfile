@@ -12,3 +12,8 @@ pytest = "*"
 
 [pipenv]
 allow_prereleases = true
+
+[scripts]
+lint = "flake8"
+test = "pytest"
+format = "format"
