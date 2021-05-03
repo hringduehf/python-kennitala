@@ -3,25 +3,26 @@ import re
 import random
 from datetime import date, timedelta
 
-__author__ = 'Jakub Owczarski'
-__version__ = '0.1.3'
-__license__ = 'MIT'
+__author__ = "Jakub Owczarski"
+__version__ = "0.1.3"
+__license__ = "MIT"
 
 
 class Kennitala:
     """Icelandic national registry codes made easy"""
+
     def __init__(self, kennitala):
         self.kennitala = kennitala
 
     def __str__(self):
         if not self.validate():
-            return 'Invalid kennitala'
+            return "Invalid kennitala"
         return self.kennitala
 
     class Invalid(Exception):
         """Kennitala is not valid"""
 
-    _age_prefix = {'8': '18', '9': '19', '0': '20'}
+    _age_prefix = {"8": "18", "9": "19", "0": "20"}
     _age_postfix = {v: k for k, v in _age_prefix.items()}
 
     @staticmethod
@@ -37,7 +38,7 @@ class Kennitala:
 
         mod = summed % 11
         if mod == 0:
-            return '0'
+            return "0"
 
         checkdigit = 11 - (summed % 11)
         if checkdigit == 10:
@@ -70,23 +71,22 @@ class Kennitala:
         full_year = str(birth_date.year)
         year = full_year[-2:]
         age_postfix = Kennitala._age_postfix[full_year[:2]]
-        month = str(birth_date.month).rjust(2, '0')
+        month = str(birth_date.month).rjust(2, "0")
         if person:
-            day = str(birth_date.day).rjust(2, '0')
+            day = str(birth_date.day).rjust(2, "0")
         else:
             day = str(birth_date.day + 40)
 
         kennitala = None
-        get_rand = lambda: random.randint(20, 99)
-        rnd = get_rand()
 
         while kennitala is None:
+            rnd = random.randint(20, 99)
             try_kennitala = day + month + year + str(rnd)
             try:
                 checkdigit = Kennitala._compute_checkdigit(try_kennitala)
                 kennitala = try_kennitala
             except ValueError:
-                rnd = get_rand()
+                continue
 
         kt_no = kennitala + checkdigit + age_postfix
         return kt_no
@@ -101,11 +101,11 @@ class Kennitala:
         end = end or date.today()
 
         if start > end:
-            raise ValueError('Start must not be > end')
+            raise ValueError("Start must not be > end")
         if start == end:
             return Kennitala.generate(start)
         days = (end - start).days
-        birth_date = start + timedelta(days=random.choice(range(days+1)))
+        birth_date = start + timedelta(days=random.choice(range(days + 1)))
         return Kennitala.generate(birth_date, person)
 
     @staticmethod
@@ -130,11 +130,11 @@ class Kennitala:
         if not self.kennitala:
             return False
 
-        pattern = r'\d{6}\-?\d{4}'
+        pattern = r"\d{6}\-?\d{4}"
         if not re.match(pattern, self.kennitala):
             return False
 
-        kennitala = self.kennitala.replace('-', '')
+        kennitala = self.kennitala.replace("-", "")
 
         if not kennitala[-1] in Kennitala._age_prefix:
             return False
@@ -172,7 +172,7 @@ class Kennitala:
         if not self.validate():
             raise Kennitala.Invalid
 
-        return self.kennitala.replace('-', '')
+        return self.kennitala.replace("-", "")
 
     def with_dash(self):
         """Returns kennitala with dash after date part.
@@ -180,6 +180,6 @@ class Kennitala:
         """
         if not self.validate():
             raise Kennitala.Invalid
-        if '-' in self.kennitala:
+        if "-" in self.kennitala:
             return self.kennitala
-        return '{0}-{1}'.format(self.kennitala[:6], self.kennitala[6:])
+        return "{0}-{1}".format(self.kennitala[:6], self.kennitala[6:])
