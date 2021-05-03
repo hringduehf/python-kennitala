@@ -69,10 +69,10 @@ def test_kennitala_birth_date_raises(kt_no):
     """Tests birth date extraction fails for invalid kennitala"""
     kennitala = Kennitala(kt_no)
     with pytest.raises(Kennitala.Invalid):
-        birth_date = kennitala.get_birth_date()
+        kennitala.get_birth_date()
     # same for static version
     with pytest.raises(Kennitala.Invalid):
-        birth_date = Kennitala.to_date(kt_no)
+        Kennitala.to_date(kt_no)
 
 
 @pytest.mark.parametrize("person", (True, False))
@@ -101,7 +101,7 @@ def test_kennitala_random_invalid_input():
     y2k = date(2000, 1, 1)
     today = date.today()
     with pytest.raises(ValueError):
-        kt_no = Kennitala.random(today, y2k)
+        Kennitala.random(today, y2k)
 
 
 def test_kennitala_random_same_day():
@@ -134,9 +134,8 @@ def test_kennitala_is_person_fails(kt_no):
     """Tests kennitala type detection"""
     kennitala = Kennitala(kt_no)
     first_digit = int(kt_no[0])
-    personal = 0 <= first_digit <= 3
     with pytest.raises(Kennitala.Invalid):
-        fail = kennitala.is_person()
+        kennitala.is_person()
 
 
 @pytest.mark.parametrize("kt_no", invalid_kennitalas)
@@ -144,7 +143,7 @@ def test_kennitala_only_digits_raises(kt_no):
     """Tests Kennitala.only_digits raises on invalid input"""
     kennitala = Kennitala(kt_no)
     with pytest.raises(Kennitala.Invalid):
-        digits = kennitala.only_digits()
+        kennitala.only_digits()
 
 
 @pytest.mark.parametrize("kt_no", invalid_kennitalas)
@@ -152,7 +151,7 @@ def test_kennitala_with_dash_raises(kt_no):
     """Tests Kennitala.with_dash raises on invalid input"""
     kennitala = Kennitala(kt_no)
     with pytest.raises(Kennitala.Invalid):
-        dashed = kennitala.with_dash()
+        kennitala.with_dash()
 
 
 @pytest.mark.parametrize("kt_no", valid_kennitalas)
