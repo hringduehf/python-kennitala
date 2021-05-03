@@ -58,6 +58,9 @@ class Kennitala:
 
         return year, month, day
 
+    def _has_person_prefix(self):
+        return int(self.kennitala[0]) <= 3
+
     @staticmethod
     def generate(birth_date, person=True):
         """Returns valid kennitala for a given birth_date.
@@ -139,7 +142,8 @@ class Kennitala:
         year, month, day = self._extract_date_parts()
 
         try:
-            date(year, month, day)
+            if self._has_person_prefix():
+                date(year, month, day)
             checkdigit = Kennitala._compute_checkdigit(kennitala)
             return kennitala[-2] == checkdigit
         except ValueError:
@@ -161,7 +165,7 @@ class Kennitala:
         if not self.validate():
             raise Kennitala.Invalid
 
-        return int(self.kennitala[0]) <= 3
+        return self._has_person_prefix()
 
     def only_digits(self):
         """Returns kennitala without '-' or raises Kennitala.Invalid"""
