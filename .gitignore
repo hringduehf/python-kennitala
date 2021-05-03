@@ -7,3 +7,4 @@ venvs/
 .coverage
 tests/test_full.py
 tests/skra.txt
+.vscode/
