@@ -9,7 +9,7 @@ setup(
     description='Icelandic national registry codes made easy',
     author='Jakub Owczarski',
     author_email='jakub3279@gmail.com',
-    packages=['kennitala'],
+    packages=['kennitala', 'tests'],
     license='MIT license',
     long_description=open('README').read(),
     classifiers=[
