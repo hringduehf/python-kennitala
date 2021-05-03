@@ -11,7 +11,7 @@ setup(
     author_email="jakub3279@gmail.com",
     packages=["kennitala", "tests"],
     license="MIT license",
-    long_description=open("README").read(),
+    long_description=open("README.md").read(),
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
