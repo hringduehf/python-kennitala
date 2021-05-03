@@ -133,7 +133,6 @@ def test_kennitala_is_person(kt_no):
 def test_kennitala_is_person_fails(kt_no):
     """Tests kennitala type detection"""
     kennitala = Kennitala(kt_no)
-    first_digit = int(kt_no[0])
     with pytest.raises(Kennitala.Invalid):
         kennitala.is_person()
 
